@@ -27,9 +27,9 @@ public class Solicitacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    private UsuarioGerador gerador;
+    private Perfil gerador;
     @ManyToOne
-    private UsuarioColetor coletor;
+    private Perfil coletor;
     private LocalDateTime dataCriacao;
     @Embedded
     private Endereco endereco;

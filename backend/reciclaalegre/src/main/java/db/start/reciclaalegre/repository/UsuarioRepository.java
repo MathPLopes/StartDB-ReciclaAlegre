@@ -7,5 +7,5 @@ import db.start.reciclaalegre.model.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 
-    Optional<Usuario> findByNome(String username);  
+    Optional<Usuario> findByEmail(String email);  
 }

@@ -1,8 +1,10 @@
 package db.start.reciclaalegre.model;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import db.start.reciclaalegre.model.enums.TipoUsuario;
@@ -32,22 +34,20 @@ public class Usuario implements UserDetails{
     @Column(unique = true)
     private String email;
     private String senha;
-    private String telefone;
-    private Boolean isAtivo;
+    private Boolean ativo;
 
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario = TipoUsuario.INDEFINIDO;
 
-    public Usuario(String email, String senha, String telefone, Boolean ativo) {
+    public Usuario(String email, String senha, Boolean ativo) {
         this.email = email;
         this.senha = senha;
-        this.telefone = telefone;
-        this.isAtivo = ativo;
+        this.ativo = ativo;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority(tipoUsuario.name()));
     }
 
     @Override
