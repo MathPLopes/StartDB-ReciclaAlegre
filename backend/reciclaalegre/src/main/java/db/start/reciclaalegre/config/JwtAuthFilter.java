@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
-public class JwtAuthFilter extends OncePerRequestFilter{
+public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UsuarioRepository usuarioRepository;
@@ -28,24 +28,25 @@ public class JwtAuthFilter extends OncePerRequestFilter{
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException{
-            
-            String token = request.getHeader("Authorization");
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws IOException, ServletException {
 
-            if (token != null && token.startsWith("Bearer ")) {
-                token = token.replace("Bearer ", "");
-            
-                String subject = jwtService.recuperarSubject(token); //leia-se subject = email
-                Usuario usuario = (Usuario) usuarioRepository.findByEmail(subject)
+        String token = request.getHeader("Authorization");
+
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.replace("Bearer ", "");
+
+            String subject = jwtService.recuperarSubject(token); // leia-se subject = email
+            Usuario usuario = (Usuario) usuarioRepository.findByEmail(subject)
                     .orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
 
-                UsernamePasswordAuthenticationToken authentication = new 
-                            UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-            
-                            if(SecurityContextHolder.getContext().getAuthentication() == null){
-                                SecurityContextHolder.getContext().setAuthentication(authentication);
-                            }
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(usuario, null,
+                    usuario.getAuthorities());
+
+            if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-            filterChain.doFilter(request, response);                         
+        }
+        filterChain.doFilter(request, response);
     }
 }

@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Usuario implements UserDetails{
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,5 +59,5 @@ public class Usuario implements UserDetails{
     public String getUsername() {
         return this.email;
     }
-    
+
 }

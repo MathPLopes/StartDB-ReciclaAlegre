@@ -20,12 +20,12 @@ public class AuthService {
     }
 
     public String gerarToken(LoginDto loginDto) {
-        UsernamePasswordAuthenticationToken authToken = new 
-                    UsernamePasswordAuthenticationToken(loginDto.email(), loginDto.senha());
-                    
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginDto.email(),
+                loginDto.senha());
+
         Authentication auth = authManager.authenticate(authToken);
         Usuario usuario = (Usuario) auth.getPrincipal();
-    
+
         return jwtService.gerarToken(usuario);
     }
 

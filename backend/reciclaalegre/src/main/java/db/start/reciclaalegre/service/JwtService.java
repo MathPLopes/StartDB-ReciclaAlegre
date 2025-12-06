@@ -25,7 +25,7 @@ public class JwtService {
                 .sign(algorithm);
     }
 
-    public String recuperarSubject(String token){
+    public String recuperarSubject(String token) {
         Algorithm algorithm = Algorithm.HMAC256(secreto);
 
         return JWT.require(algorithm)
