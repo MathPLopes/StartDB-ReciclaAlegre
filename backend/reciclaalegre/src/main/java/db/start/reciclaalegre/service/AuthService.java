@@ -1,25 +1,31 @@
 package db.start.reciclaalegre.service;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import db.start.reciclaalegre.dto.LoginDto;
 import db.start.reciclaalegre.model.Usuario;
-import db.start.reciclaalegre.repository.UsuarioRepository;
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class AuthService {
 
-    private final UsuarioRepository usuarioRepository;
     private final JwtService jwtService;
+    private final AuthenticationManager authManager;
 
-    public AuthService(UsuarioRepository usuarioRepository, JwtService jwtService) {
-        this.usuarioRepository = usuarioRepository;
+    public AuthService(JwtService jwtService, AuthenticationManager authManager) {
         this.jwtService = jwtService;
+        this.authManager = authManager;
     }
 
     public String gerarToken(LoginDto loginDto) {
-        Usuario usuario = usuarioRepository.findByEmail(loginDto.email()).orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+        UsernamePasswordAuthenticationToken authToken = new 
+                    UsernamePasswordAuthenticationToken(loginDto.email(), loginDto.senha());
+                    
+        Authentication auth = authManager.authenticate(authToken);
+        Usuario usuario = (Usuario) auth.getPrincipal();
+    
         return jwtService.gerarToken(usuario);
     }
 
