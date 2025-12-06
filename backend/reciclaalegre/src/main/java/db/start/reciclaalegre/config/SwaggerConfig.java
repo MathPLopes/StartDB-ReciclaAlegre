@@ -13,8 +13,8 @@ public class SwaggerConfig {
     public OpenAPI customizarSwagger() {
         return new OpenAPI()
                 .info(new Info()
-                    .title("ReciclaAlegre API")
-                    .version("1.0")
-                    .description("Documentação da Api do ReciclaAlegre"));
+                        .title("ReciclaAlegre API")
+                        .version("1.0")
+                        .description("Documentação da Api do ReciclaAlegre"));
     }
 }

@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<?> handleDataIntegrityViolantion (DataIntegrityViolationException e){
+    public ResponseEntity<?> handleDataIntegrityViolantion(DataIntegrityViolationException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleMethodArgumentNotValid(MethodArgumentNotValidException e){
+    public ResponseEntity<?> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
         List<FieldError> errors = e.getFieldErrors();
         Map<String, String> x = new HashMap<>();
         errors.stream().map(ee -> x.put(ee.getField(), ee.getDefaultMessage())).toList();
