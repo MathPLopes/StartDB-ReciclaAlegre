@@ -13,6 +13,7 @@ import db.start.reciclaalegre.model.Usuario;
 import db.start.reciclaalegre.repository.PerfilRepository;
 import db.start.reciclaalegre.repository.UsuarioRepository;
 import db.start.reciclaalegre.utils.mapper.EntidadeMapper;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -50,6 +51,12 @@ public class UsuarioService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+    }
+
+    public UsuarioResponseDTO perfilDeUsuario(String usuarioEmail) {
+        Usuario usuario = usuarioRepository.findByEmail(usuarioEmail)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
+        return entidadeMapper.usuarioToDto(usuario);
     }
 
 }
