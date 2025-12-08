@@ -5,7 +5,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import db.start.reciclaalegre.dto.LoginDto;
+import db.start.reciclaalegre.dto.LoginDTO;
 import db.start.reciclaalegre.model.Usuario;
 
 @Service
@@ -19,7 +19,7 @@ public class AuthService {
         this.authManager = authManager;
     }
 
-    public String gerarToken(LoginDto loginDto) {
+    public String gerarToken(LoginDTO loginDto) {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginDto.email(),
                 loginDto.senha());
 

@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import db.start.reciclaalegre.model.enums.TipoUsuario;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -37,7 +39,7 @@ public class SecurityConfig {
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll() //cadastro
                         .requestMatchers("/api/usuarios/**").authenticated()
-                        .requestMatchers("/api/solicitacoes").authenticated()
+                        .requestMatchers(HttpMethod.POST,"/api/solicitacoes").hasRole(TipoUsuario.GERADOR.name())
                         .anyRequest().authenticated()
                     )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import db.start.reciclaalegre.dto.LoginDto;
+import db.start.reciclaalegre.dto.LoginDTO;
 import db.start.reciclaalegre.service.AuthService;
 
 @RestController
@@ -21,7 +21,7 @@ public class AuthRestController {
     }
 
     @PostMapping
-    public ResponseEntity<String> loginAuth(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<String> loginAuth(@RequestBody LoginDTO loginDto) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(authService.gerarToken(loginDto));
     }
 }

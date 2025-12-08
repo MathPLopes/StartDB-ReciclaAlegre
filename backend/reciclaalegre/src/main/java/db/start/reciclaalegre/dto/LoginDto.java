@@ -1,6 +1,6 @@
 package db.start.reciclaalegre.dto;
 
-public record LoginDto(
+public record LoginDTO(
                 String email,
                 String senha) {
 
