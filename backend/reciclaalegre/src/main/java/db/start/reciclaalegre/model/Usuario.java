@@ -25,7 +25,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Usuario implements UserDetails {
 
     @Id
