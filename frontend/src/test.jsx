@@ -9,16 +9,16 @@ export function AuthDebugger() {
         tipoUsuario: "GERADOR",
         perfil: {
             nome: "Usuário Teste",
-            telefone: "99999-9999",
             endereco: {
-                cep: "99999-000",
+                cep: "99999000",
                 logradouro: "Rua Teste",
                 numero: "123",
                 bairro: "Centro",
                 cidade: "Cidade Teste",
                 estado: "ST",
                 pais: "BR"
-            }
+            },
+            telefone: "99999999999",
         }
     };
 
