@@ -82,7 +82,7 @@ public class SolicitacaoService {
                 .orElseThrow(() -> new EntityNotFoundException("Solicitação não encontrada"));
 
         if (solicitacao.getSituacao() != StatusSolicitacao.ATIVO) {
-            throw new EntityNotFoundException("Solicitação indisponível!");
+            throw new EntityNotFoundException("Solictação indisponível!");
         } else {
             solicitacao.setColetor(usuario.getPerfil());
             solicitacao.setSituacao(StatusSolicitacao.PENDENTE);
@@ -92,4 +92,28 @@ public class SolicitacaoService {
         }
     }
 
+    @Transactional 
+    @PreAuthorize("hasRole('GERADOR')") 
+    public SolicitacaoResponseDTO atualizarSolicitacao(Long id, SolicitacaoRequestDTO dto, String email) {
+       Usuario usuario = usuarioUtils.validarUsuario(email); 
+         Solicitacao solicitacao = solicitacaoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Solicitação não encontrada"));
+        if (!solicitacao.getGerador().getUsuario().getId().equals(usuario.getId())) {
+
+            throw new RuntimeException();
+             
+        } else {
+            solicitacao.setDescricao(dto.descricao());
+            Set<Material> materiaisAtualizados = dto.materiais().stream()
+                    .map(materialMapper::toEntity)
+                    .collect(Collectors.toSet());
+            solicitacao.setMateriais(materiaisAtualizados); 
+            materialRepository.saveAll(materiaisAtualizados);                  
+            solicitacaoRepository.save(solicitacao);
+            return solicitacaoMapper.toDto(solicitacao);
+        }
+
+
+    }
+    
 }

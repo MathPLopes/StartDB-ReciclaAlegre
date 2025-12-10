@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ReciclaalegreApplication<reciclaalegre>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "db.start.reciclaalegre.ReciclaalegreApplication",
+            "projectName": "reciclaalegre",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
