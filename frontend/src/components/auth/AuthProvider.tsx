@@ -37,6 +37,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
 
     const register = async (data: UsuarioRequestDTO) => {
+        console.log(data)
         try {
             await registrarUsuario(data)
         } catch (error) {
@@ -47,6 +48,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
 
     const login = async (email: string, senha: string) => {
+        console.log(email,senha)
         try {
             const token = await loginUsuario({ email, senha })
             setToken(token)

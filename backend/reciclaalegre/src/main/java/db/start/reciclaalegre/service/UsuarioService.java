@@ -23,20 +23,17 @@ public class UsuarioService implements UserDetailsService {
 
     private final UsuarioRepository usuarioRepository;
     private final UsuarioUtils usuarioUtils;
-    private final PerfilRepository perfilRepository;
     private final EntidadeMapper entidadeMapper;
     private final PasswordEncoder passwordEncoder;
 
     public UsuarioService(
             UsuarioRepository usuarioRepository,
-            PerfilRepository perfilRepository,
             EntidadeMapper entidadeMapper,
             PasswordEncoder passwordEncoder,
             UsuarioUtils usuarioUtils) {
 
         this.usuarioRepository = usuarioRepository;
         this.usuarioUtils = usuarioUtils;
-        this.perfilRepository = perfilRepository;
         this.entidadeMapper = entidadeMapper;
         this.passwordEncoder = passwordEncoder;
     }
