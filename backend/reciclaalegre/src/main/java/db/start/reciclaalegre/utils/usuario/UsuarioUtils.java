@@ -15,12 +15,18 @@ public class UsuarioUtils {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public Usuario validarUsuario(String email){
+    public Usuario validarUsuario(String email) {
         return usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
     }
 
-    public Usuario salvarUsuario(Usuario usuario){
+    public void validarCamposString(String valor, String campo) {
+        if (valor.isBlank() || valor == null) {
+            throw new IllegalArgumentException("Preencha corretamente o campo: " + campo);
+        }
+    }
+
+    public Usuario salvarUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
 

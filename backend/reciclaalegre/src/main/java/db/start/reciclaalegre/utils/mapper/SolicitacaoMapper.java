@@ -11,6 +11,7 @@ import db.start.reciclaalegre.model.Solicitacao;
 public interface SolicitacaoMapper {
 
     @Mapping(target = "gerador", expression = "java(solicitacao.getGerador().getNome())")
+    @Mapping(target = "coletor", expression = "java(solicitacao.getColetor().getNome())")
     SolicitacaoResponseDTO toDto(Solicitacao solicitacao);
 
     @Mapping(target = "id", ignore = true)

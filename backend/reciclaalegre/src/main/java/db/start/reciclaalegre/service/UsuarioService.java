@@ -2,6 +2,7 @@ package db.start.reciclaalegre.service;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,9 +11,9 @@ import org.springframework.stereotype.Service;
 
 import db.start.reciclaalegre.dto.UsuarioRequestDTO;
 import db.start.reciclaalegre.dto.UsuarioResponseDTO;
+import db.start.reciclaalegre.dto.UsuarioUpdateDTO;
 import db.start.reciclaalegre.model.Perfil;
 import db.start.reciclaalegre.model.Usuario;
-import db.start.reciclaalegre.repository.PerfilRepository;
 import db.start.reciclaalegre.repository.UsuarioRepository;
 import db.start.reciclaalegre.utils.mapper.EntidadeMapper;
 import db.start.reciclaalegre.utils.usuario.UsuarioUtils;
@@ -38,6 +39,11 @@ public class UsuarioService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return usuarioUtils.validarUsuario(email);
+    }
+
     @Transactional
     public UsuarioResponseDTO adicionarUsuario(UsuarioRequestDTO dto) {
         Usuario usuario = entidadeMapper.usuarioToEntity(dto);
@@ -49,15 +55,13 @@ public class UsuarioService implements UserDetailsService {
         return entidadeMapper.usuarioToDto(usuario);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return usuarioUtils.validarUsuario(email);
-    }
 
+    @PreAuthorize("hasAnyRole('COLETOR', 'GERADOR', 'ADMINISTRADOR')")
     public UsuarioResponseDTO perfilDeUsuario(String email) {
         return entidadeMapper.usuarioToDto(usuarioUtils.validarUsuario(email));
     }
 
+    @PreAuthorize("hasAnyRole('COLETOR', 'GERADOR', 'ADMINISTRADOR')")
     public List<UsuarioResponseDTO> listarUsuarios() {
         return usuarioRepository.findAllByAtivoTrue()
         .stream()
@@ -65,9 +69,26 @@ public class UsuarioService implements UserDetailsService {
     }
 
     @Transactional
+    @PreAuthorize("hasAnyRole('COLETOR', 'GERADOR', 'ADMINISTRADOR')")
     public void desabilitarUsuario(String email) {
         Usuario usuario = usuarioUtils.validarUsuario(email);
         usuario.setAtivo(false);
+    }
+
+    @Transactional
+    @PreAuthorize("hasAnyRole('COLETOR', 'GERADOR', 'ADMINISTRADOR')")
+    public UsuarioResponseDTO atualizarUsuario(String email, UsuarioUpdateDTO updateDTO) {
+        Usuario usuario = usuarioUtils.validarUsuario(email);
+
+        usuarioUtils.validarCamposString(updateDTO.nome(), "nome");
+        usuarioUtils.validarCamposString(updateDTO.senha(), "senha");
+        usuarioUtils.validarCamposString(updateDTO.telefone(), "telefone");
+        usuario.setSenha(passwordEncoder.encode(updateDTO.senha()));
+        usuario.getPerfil().setNome(updateDTO.nome());
+        usuario.getPerfil().setTelefone(updateDTO.telefone());
+        usuario.getPerfil().setEndereco(updateDTO.endereco());
+        
+        return entidadeMapper.usuarioToDto(usuarioRepository.save(usuario));
     }
 
 }

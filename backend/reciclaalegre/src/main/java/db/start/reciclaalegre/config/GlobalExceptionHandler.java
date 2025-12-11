@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,6 +26,11 @@ public class GlobalExceptionHandler {
         Map<String, String> x = new HashMap<>();
         errors.stream().map(ee -> x.put(ee.getField(), ee.getDefaultMessage())).toList();
         return ResponseEntity.badRequest().body(x);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> handleIllegalArgs(IllegalArgumentException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 
 }

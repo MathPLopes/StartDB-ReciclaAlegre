@@ -7,6 +7,10 @@ import db.start.reciclaalegre.dto.SolicitacaoRequestDTO;
 import db.start.reciclaalegre.dto.SolicitacaoResponseDTO;
 import db.start.reciclaalegre.model.Usuario;
 import db.start.reciclaalegre.service.SolicitacaoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import java.util.List;
@@ -51,8 +55,21 @@ public class SolicitacaoRestController {
     }
 
     @PostMapping("/requisitar/{id}")
+    @Operation(
+        summary = "Envia o request de um coletor para efetuar a coleta de uma solicitação",
+        description = """
+            O usario (coletor) está visualizando a lista de solicitações ativas,
+            e ao clicar em 'solicitar' envia o ID esperado nesse endpoint e se coloca como coletor da 
+            solicitação, e deixando-a pendente de aprovação por parte do usuario Gerador
+            """,
+        responses = {
+            @ApiResponse(
+                description = "Success",
+                responseCode = "200",
+                content = @Content(schema = @Schema(implementation = SolicitacaoResponseDTO.class)))
+        }
+    )
     public ResponseEntity<?> requisitarColeta(@AuthenticationPrincipal Usuario usuario, @PathVariable Long id) {
-        System.out.println("SOLICITAR COLETA " + id);
         return ResponseEntity.ok(solicitacaoService.requisitarColeta(usuario.getEmail(), id));
     }
 

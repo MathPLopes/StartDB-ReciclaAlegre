@@ -59,6 +59,7 @@ public class SolicitacaoService {
         return solicitacaoMapper.toDto(solicitacao);
     }
 
+    @PreAuthorize("hasAnyRole('COLETOR', 'GERADOR', 'ADMINISTRADOR')")
     public List<SolicitacaoResponseDTO> carregarAtivas() {
         return solicitacaoRepository.findAllBySituacao(StatusSolicitacao.ATIVO)
                 .stream()

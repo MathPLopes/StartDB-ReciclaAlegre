@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import db.start.reciclaalegre.dto.UsuarioRequestDTO;
 import db.start.reciclaalegre.dto.UsuarioResponseDTO;
+import db.start.reciclaalegre.dto.UsuarioUpdateDTO;
 import db.start.reciclaalegre.model.Usuario;
 import db.start.reciclaalegre.service.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -19,11 +20,11 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-
-
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("/api/usuarios")   
+@RequestMapping("/api/usuarios")
+@SecurityRequirement(name = "bearer-key")
 public class UsuarioRestController {
 
     private final UsuarioService usuarioService;
@@ -38,26 +39,26 @@ public class UsuarioRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
 
-    @SecurityRequirement(name = "bearer-key")
     @GetMapping("/perfil")
     public ResponseEntity<UsuarioResponseDTO> perfilDeUsuario(@AuthenticationPrincipal Usuario usuario) {
         return ResponseEntity.ok(usuarioService.perfilDeUsuario(usuario.getEmail()));
     }
 
-    @SecurityRequirement(name = "bearer-key")
     @GetMapping
     public ResponseEntity<List<UsuarioResponseDTO>> listaDeUsuarios() {
         return ResponseEntity.ok(usuarioService.listarUsuarios());
     }
 
-    @SecurityRequirement(name = "bearer-key")
     @DeleteMapping
-    public ResponseEntity<?> desabilitarUsuario(@AuthenticationPrincipal Usuario usuario){
+    public ResponseEntity<?> desabilitarUsuario(@AuthenticationPrincipal Usuario usuario) {
         usuarioService.desabilitarUsuario(usuario.getEmail());
         return ResponseEntity.noContent().build();
     }
 
-    
-    
-    
+    @PutMapping("/atualizar")
+    public ResponseEntity<UsuarioResponseDTO> atualizarUsuario(@AuthenticationPrincipal Usuario usuario,
+            @Valid @RequestBody UsuarioUpdateDTO updateDTO) {
+        return ResponseEntity.ok().body(usuarioService.atualizarUsuario(usuario.getEmail(), updateDTO));
+    }
+
 }
