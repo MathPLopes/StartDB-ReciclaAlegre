@@ -1,6 +1,9 @@
 {
   "files": [],
   "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["react", "react-dom"],
     "erasableSyntaxOnly": false
   },
   "references": [

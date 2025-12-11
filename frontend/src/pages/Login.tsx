@@ -1,74 +1,73 @@
-import { useState } from "react";
-import { useContext } from "react";
-import { AuthContext } from "../components/auth/AuthContext";
+import { useState, useContext } from "react"
+import { AuthContext } from "../components/auth/AuthContext"
+import styles from "../css/Login.module.css"
+import { useNavigate } from "react-router-dom"
 
 export default function LoginPage() {
   const auth = useContext(AuthContext);
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [email, setEmail] = useState("")
+  const [senha, setSenha] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const navigate = useNavigate()
 
   if (!auth) {
-    return <p>AuthContext não encontrado</p>;
+    return <p>AuthContext não encontrado</p>
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
+    e.preventDefault()
+    setLoading(true)
+    setError(null)
 
     try {
-      await auth.login(email, senha);
+      await auth.login(email, senha)
+      navigate("/Lista");
     } catch (err: any) {
-      setError(err.message || "Erro ao fazer login");
+      setError(err.message || "Erro ao fazer login")
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-sm space-y-4"
-      >
-        <h1 className="text-2xl font-bold text-center">Login</h1>
+    <div className={styles.container}>
+      <form className={styles.card} onSubmit={handleSubmit}>
+        <h1 className={styles.title}>Bem-vindo!</h1>
 
-        {error && (
-          <p className="text-red-500 text-sm text-center">{error}</p>
-        )}
+        {error && <p className={styles.error}>{error}</p>}
 
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium">Email</label>
+        <div className={styles.inputGroup}>
+          <label>Email</label>
           <input
             type="email"
-            className="border rounded-lg p-2"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className={styles.input}
           />
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium">Senha</label>
+        <div className={styles.inputGroup}>
+          <label>Senha</label>
           <input
             type="password"
-            className="border rounded-lg p-2"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
             required
+            className={styles.input}
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-green-600 hover:bg-green-700 text-white p-2 rounded-lg mt-4 transition disabled:opacity-50"
-        >
+        <button type="submit" disabled={loading} className={styles.button}>
           {loading ? "Entrando..." : "Entrar"}
         </button>
+
+        <p className={styles.register}>
+          Não tem uma conta?{" "}
+          <span className={styles.registerLink} onClick={() => navigate("/Cadastro")}>Cadastre-se</span>
+        </p>
       </form>
     </div>
-  );
+  )
 }

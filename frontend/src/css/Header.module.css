@@ -1,0 +1,64 @@
+:root {
+  --color-primary: #38a169;
+  --color-primary-dark: #2f855a;
+
+  --color-error-bg: #fed7d7;
+  --color-error-text: #c53030;
+
+  --color-text: #4a5568;
+  --color-bg: linear-gradient(135deg, #e6f4ea, #f0f8f4);
+
+  --border-radius: 12px;
+  --card-padding: 40px 30px;
+
+  --shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+
+  --input-padding: 12px;
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header {
+  width: 100%;
+  padding: 18px 28px;
+  background: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  position: sticky;
+  top: 0;
+  z-index: 50;
+
+  font-family: var(--font-family);
+}
+
+.username {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.addButton {
+  padding: 10px 18px;
+  font-size: 15px;
+  font-weight: 600;
+
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.addButton:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+}
+
+.addButton:active {
+  transform: translateY(0);
+}

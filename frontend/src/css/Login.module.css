@@ -1,0 +1,113 @@
+:root {
+  --color-primary: #38a169;
+  --color-primary-dark: #2f855a;
+  --color-error-bg: #fed7d7;
+  --color-error-text: #c53030;
+  --color-text: #4a5568;
+  --color-bg: linear-gradient(135deg, #e6f4ea, #f0f8f4);
+  --border-radius: 12px;
+  --card-padding: 40px 30px;
+  --shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  --input-padding: 12px;
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: var(--color-bg);
+  padding: 16px;
+  font-family: var(--font-family);
+}
+
+.card {
+  background-color: white;
+  padding: var(--card-padding);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: center;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.error {
+  background-color: var(--color-error-bg);
+  color: var(--color-error-text);
+  padding: 10px;
+  border-radius: var(--border-radius);
+  font-size: 14px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.inputGroup label {
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.input {
+  padding: var(--input-padding);
+  border: 1px solid #cbd5e0;
+  border-radius: var(--border-radius);
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(56, 161, 105, 0.2);
+}
+
+.button {
+  padding: 14px;
+  background-color: var(--color-primary);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover:not(:disabled) {
+  background-color: var(--color-primary-dark);
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.register {
+  font-size: 14px;
+  color: var(--color-text);
+  margin-top: 10px;
+}
+
+.registerLink {
+  color: var(--color-primary);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.registerLink:hover {
+  text-decoration: underline;
+}

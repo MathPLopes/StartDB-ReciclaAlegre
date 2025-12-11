@@ -69,7 +69,12 @@ export async function careggarSolicitacoes(token: string): Promise<SolicitacaoRe
     const res = await fetch(`${BASE_URL}/solicitacoes`, {
         headers: { Authorization: `Bearer ${token}` },
     })
-    if (!res.ok) throw new Error('Não foi possível carregar solicitações')
+    console.log("Status:", res.status)
+    if (!res.ok){
+        const text = await res.text()
+                console.log("Erro do servidor:", text)
+        throw new Error('Não foi possível carregar solicitações')
+    }
     return res.json()
 }
 

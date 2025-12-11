@@ -1,19 +1,35 @@
+:root {
+  --color-primary: #10b981;      
+  --color-primary-dark: #059669; 
+  --color-text-dark: #333;       
+  --color-text-secondary: #444;  
+  --color-text-label: #555;      
+  --color-bg: #f5f6fa;           
+  --color-card-bg: #ffffff;       
+  --color-border: #ccc;           
+  --border-radius: 8px;
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --padding-card: 28px;
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .container {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
-  background: #f5f6fa;
+  background: var(--color-bg);
+  font-family: var(--font-family);
 }
 
 .form {
   width: 100%;
   max-width: 100vh;
-  background: #fff;
-  padding: 28px;
+  background: var(--color-card-bg);
+  padding: var(--padding-card);
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -23,13 +39,13 @@
   text-align: center;
   font-size: 22px;
   font-weight: 700;
-  color: #333;
+  color: var(--color-text-dark);
 }
 
 .subtitle {
   font-size: 16px;
   font-weight: 600;
-  color: #444;
+  color: var(--color-text-secondary);
   margin-top: 10px;
 }
 
@@ -41,29 +57,29 @@
 
 .group label {
   font-size: 14px;
-  color: #555;
+  color: var(--color-text-label);
 }
 
 .group input {
   padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);
   font-size: 15px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .group input:focus {
-  border-color: #3b82f6;
+  border-color: var(--color-primary);
   outline: none;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
 }
 
-/* GRID 2 COLUNAS */
 .grid2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
 
-/* GRID 3 COLUNAS */
 .grid3 {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr 1fr;
@@ -75,13 +91,32 @@
   padding: 12px;
   font-size: 16px;
   font-weight: 600;
-  background: #10b981;
+  background: var(--color-primary);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .button:hover {
-  background: #059669;
+  background: var(--color-primary-dark);
+}
+
+
+.login {
+  font-size: 14px;
+  color: var(--color-text);
+  margin-top: 10px;
+  text-align: center;
+}
+
+.loginLink {
+  color: var(--color-primary);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.loginLink:hover {
+  text-decoration: underline;
 }
