@@ -10,8 +10,10 @@ import db.start.reciclaalegre.model.Solicitacao;
 @Mapper(componentModel = "spring")
 public interface SolicitacaoMapper {
 
+    public static final String INDEFINIDO = "INDEFINIDO";
+
     @Mapping(target = "gerador", expression = "java(solicitacao.getGerador().getNome())")
-    @Mapping(target = "coletor", expression = "java(solicitacao.getColetor().getNome())")
+    @Mapping(target = "coletor",expression = "java(solicitacao.getColetor() != null ? solicitacao.getColetor().getNome() : SolicitacaoMapper.INDEFINIDO)")
     SolicitacaoResponseDTO toDto(Solicitacao solicitacao);
 
     @Mapping(target = "id", ignore = true)
