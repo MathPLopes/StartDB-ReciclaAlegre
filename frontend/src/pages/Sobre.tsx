@@ -1,40 +1,34 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../assets/style.css";
 
 const Sobre: React.FC = () => {
+  const navigate = useNavigate();
+
   useEffect(() => {
     const toggleBtn = document.getElementById("toggle-theme");
-    if (toggleBtn) {
-      toggleBtn.addEventListener("click", () => {
-        document.body.classList.toggle("dark");
-      });
-    }
+
+    const handleToggle = () => {
+      document.body.classList.toggle("dark");
+    };
+
+    toggleBtn?.addEventListener("click", handleToggle);
+
+    return () => {
+      toggleBtn?.removeEventListener("click", handleToggle);
+    };
   }, []);
 
   return (
     <div>
-      <header className="sobre-hero">
-        <h1>Sobre o ReciclAlegre</h1>
+     <header className="sobre-hero-topbar">
+  <button onClick={() => navigate("/")} className="btn-voltar">
+    ⬅ Voltar
+  </button>
 
-        <p>
-          No ReciclAlegre, acreditamos que a reciclagem vai muito além do ato de
-          descartar resíduos: ela é um ato de responsabilidade social, ambiental
-          e de valorização humana. Nosso objetivo é conectar quem produz
-          recicláveis a quem pode reaproveitá-los, promovendo economia circular,
-          inclusão social e sustentabilidade em nossa comunidade.
-        </p>
-
-        <button
-          id="toggle-theme"
-          className="btn-theme"
-          style={{ position: "absolute", right: 20, top: 20 }}
-        >
-          🌙
-        </button>
-      </header>
-
+  <h1 className="titulo-reciclalegre">Sobre o ReciclAlegre</h1>
+</header>
       <section className="sobre-container fade">
-
         <div className="card">
           <h2>Missão</h2>
           <p>
@@ -91,7 +85,7 @@ const Sobre: React.FC = () => {
         </div>
 
         <div className="card">
-          <h2>Por que existe o ReciclAlegre</h2>
+          <h2>Por que existe o ReciclAlegre?</h2>
 
           <p>
             Muitas cidades, especialmente fora dos grandes centros, ainda não
@@ -112,8 +106,8 @@ const Sobre: React.FC = () => {
 
           <p>
             Se você se preocupa com o destino do seu lixo, com o futuro do
-            planeta ou com a dignidade de quem trabalha com reciclagem — junte-se
-            a nós.
+            planeta ou com a dignidade de quem trabalha com reciclagem —
+            junte-se a nós.
           </p>
 
           <p>
@@ -126,7 +120,6 @@ const Sobre: React.FC = () => {
             ReciclAlegre.
           </p>
         </div>
-
       </section>
     </div>
   );
