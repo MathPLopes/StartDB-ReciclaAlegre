@@ -27,7 +27,7 @@ const Home: React.FC = () => {
                     <Link to="/sobre">Sobre</Link>
                 </nav>
 
-                <button id="toggle-theme" className="btn-theme">🌙</button>
+                {/*<button id="toggle-theme" className="btn-theme">🌙</button>*/}
             </header>
 
              <section className="grid-3">
