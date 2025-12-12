@@ -28,21 +28,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        return http//.cors(Customizer.withDefaults())
+        return http.cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // .requestMatchers("/swagger-ui/**", "/v3/api-docs/**",
-                        //         "/swagger-resources/**", "/webjars/**").permitAll()
-                        // .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        // .requestMatchers("/h2-console/**").permitAll()
-                        // .requestMatchers("/api/auth").permitAll() //login
-                        // .requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll() // cadastro
-                        // .requestMatchers(HttpMethod.POST, "/api/usuarios/perfil").permitAll()
-                        // .requestMatchers(HttpMethod.POST, "/api/*").permitAll()
-                        // .requestMatchers(HttpMethod.GET, "/api/*").permitAll()
-                        .anyRequest().permitAll())
+                    .requestMatchers("/swagger-ui/**", "/v3/api-docs/**",
+                    "/swagger-resources/**", "/webjars/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .requestMatchers("/h2-console/**").permitAll()
+                    .requestMatchers("/api/auth").permitAll() //login
+                    .requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll() // cadastro
+                    .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

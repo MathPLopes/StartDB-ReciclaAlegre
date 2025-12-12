@@ -54,6 +54,7 @@ public class SolicitacaoService {
         solicitacao.setSituacao(StatusSolicitacao.ATIVO);
         solicitacao.setMateriais(materiais);
         solicitacao.setDataCriacao(LocalDateTime.now());
+        solicitacao.setColetor(null);
         solicitacaoRepository.save(solicitacao);
 
         return solicitacaoMapper.toDto(solicitacao);
