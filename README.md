@@ -1,4 +1,4 @@
-# StartDB-ReciclaAlegre
+# StartDB-ReciclaAlegre  - [Acesso a Wiki](https://github.com/MathPLopes/StartDB-ReciclaAlegre/wiki)
 # :recycle: Projeto Recicla Alegre :recycle:
 O ReciclAlegre é uma aplicação web criada para aproximar geradores de resíduos e coletores, tornando o descarte de recicláveis mais simples, acessível e sustentável.
 O Projeto em sua release atual conta com funcionalidades basicas de cadastro de usuário e solicitações de coleta.  
