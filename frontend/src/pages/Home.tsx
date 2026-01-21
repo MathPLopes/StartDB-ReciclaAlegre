@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Card } from '../components/Card';
+import React, { useContext, useEffect } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { Card } from "../components/Card";
 import "../assets/style.css";
+import { AuthContext } from "../components/auth/AuthContext";
 
 const Home: React.FC = () => {
 
