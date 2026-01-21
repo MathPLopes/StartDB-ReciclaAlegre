@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -94,27 +95,40 @@ public class SolicitacaoService {
         }
     }
 
-    @Transactional 
-    @PreAuthorize("hasRole('GERADOR')") 
+    @Transactional
+    @PreAuthorize("hasRole('GERADOR')")
     public SolicitacaoResponseDTO atualizarSolicitacao(Long id, SolicitacaoRequestDTO dto, String email) {
-       Usuario usuario = usuarioUtils.validarUsuario(email); 
-         Solicitacao solicitacao = solicitacaoRepository.findById(id)
+        Usuario usuario = usuarioUtils.validarUsuario(email);
+
+        Solicitacao solicitacao = solicitacaoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Solicitação não encontrada"));
-        if (!solicitacao.getGerador().getUsuario().getId().equals(usuario.getId())) {
 
-            throw new RuntimeException();
-             
-        } else {
-            solicitacao.setDescricao(dto.descricao());
-            Set<Material> materiaisAtualizados = dto.materiais().stream()
-                    .map(materialMapper::toEntity)
-                    .collect(Collectors.toSet());
-            solicitacao.setMateriais(materiaisAtualizados); 
-            materialRepository.saveAll(materiaisAtualizados);                  
-            solicitacaoRepository.save(solicitacao);
-            return solicitacaoMapper.toDto(solicitacao);
-        }
+        usuarioUtils.validarPermissao(usuario, solicitacao);
+        
+        solicitacao.setDescricao(dto.descricao());
 
+        Set<Material> materiaisAtualizados = dto.materiais().stream()
+                .map(materialMapper::toEntity)
+                .collect(Collectors.toSet());
+
+        solicitacao.setMateriais(materiaisAtualizados);
+
+        Solicitacao solicitacaoAtualizada = solicitacaoRepository.save(solicitacao);
+
+        return solicitacaoMapper.toDto(solicitacaoAtualizada);
 
     }
+
+    @Transactional
+    @PreAuthorize("hasRole('GERADOR')")
+    public SolicitacaoResponseDTO aprovarColeta(String email, Long id) {
+        Usuario usuario = usuarioUtils.validarUsuario(email);
+
+        Solicitacao solicitacao = solicitacaoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Solicitação não encontrada"));
+        solicitacao.setSituacao(StatusSolicitacao.APROVADO);
+        usuarioUtils.validarPermissao(usuario, solicitacao);
+        return solicitacaoMapper.toDto(solicitacaoRepository.save(solicitacao));
+    }
+
 }

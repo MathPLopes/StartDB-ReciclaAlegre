@@ -1,7 +1,9 @@
 package db.start.reciclaalegre.utils.usuario;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
+import db.start.reciclaalegre.model.Solicitacao;
 import db.start.reciclaalegre.model.Usuario;
 import db.start.reciclaalegre.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -28,6 +30,12 @@ public class UsuarioUtils {
 
     public Usuario salvarUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
+    }
+
+    public void validarPermissao(Usuario usuario, Solicitacao solicitacao) {
+        if (!solicitacao.getGerador().getUsuario().getId().equals(usuario.getId())) {
+            throw new AccessDeniedException("Usuário não tem permissão para atualizar esta solicitação");
+        }
     }
 
 }

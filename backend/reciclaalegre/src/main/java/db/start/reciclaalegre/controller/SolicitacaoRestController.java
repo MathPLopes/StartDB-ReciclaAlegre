@@ -73,6 +73,23 @@ public class SolicitacaoRestController {
         return ResponseEntity.ok(solicitacaoService.requisitarColeta(usuario.getEmail(), id));
     }
 
+    @PostMapping("/aprovar/{id}")
+    @Operation(
+        summary = "Request de aprovação de uma coleta por parte de um Usuario gerador",
+        description = """
+            O usario (geradir) está visualizando as suas solicitações,
+            e ao clicar em 'aprovar' em alguma que esta pendendete muda o status para aprovado""",
+        responses = {
+            @ApiResponse(
+                description = "Success",
+                responseCode = "200",
+                content = @Content(schema = @Schema(implementation = SolicitacaoResponseDTO.class)))
+        }
+    )
+    public ResponseEntity<?> aprovarColeta(@AuthenticationPrincipal Usuario usuario, @PathVariable Long id){
+        return ResponseEntity.ok(solicitacaoService.aprovarColeta(usuario.getEmail(), id));
+    }
+
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<SolicitacaoResponseDTO> atualizarSolicitacao(@PathVariable Long id,
             @RequestBody SolicitacaoRequestDTO dto, @AuthenticationPrincipal Usuario usuario) {

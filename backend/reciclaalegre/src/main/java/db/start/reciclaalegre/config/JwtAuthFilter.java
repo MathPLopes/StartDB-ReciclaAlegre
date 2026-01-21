@@ -30,23 +30,23 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
-
-        String token = request.getHeader("Authorization");
+                
+        String token = request.getHeader("Authorization"); //"pegamos" do header de Authorization onde deve estar o nosso token
 
         if (token != null && token.startsWith("Bearer ")) {
-            token = token.replace("Bearer ", "");
+            token = token.replace("Bearer ", "");//removendo o "Bearer " da string do token. Sim tem um espaço depois de Bearer
 
             String subject = jwtService.recuperarSubject(token); // leia-se subject = email
-            Usuario usuario = (Usuario) usuarioRepository.findByEmail(subject)
-                    .orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
+            Usuario usuario = (Usuario) usuarioRepository.findByEmail(subject) //entidade que implementa UserDetails
+                    .orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));//o certo seria lançar uma except no request
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(usuario, null,
-                    usuario.getAuthorities());
+                    usuario.getAuthorities()); //cria uma autenticação com os dados do usuario
 
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication); //insere essa autenticação no contexto de Segurança
             }
         }
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(request, response); //agora pode serguir para o controller ou outros filtros
     }
 }
